@@ -1,0 +1,891 @@
+Option Explicit
+
+' ====4-SHIFROR RENDITJE NGA ME I VOGLI TE ME I MADHI- 8708 FILLIM ===============
+' Funksion ndihmës: kontrollon nëse një çelës ekziston në një Collection
+' (zëvendëson dict.Exists() të Scripting.Dictionary)
+' ============================================================
+Private Function KeyExists(coll As Collection, key As String) As Boolean
+    Dim tmp As Variant
+    On Error Resume Next
+    tmp = coll.Item(key)
+    KeyExists = (Err.Number = 0)
+    Err.Clear
+    On Error GoTo 0
+End Function
+
+Sub HS6_Group_Advanced()
+
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    
+    Dim lastRow As Long
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    
+    ' ---- Collection në vend të Scripting.Dictionary ----
+    Dim dict As Collection
+    Set dict = New Collection
+    
+    Dim i As Long, hsKey As String, fullHS As String, desc As String
+    Dim hsNum As Double
+    
+    Const colDesc As Integer = 2
+    Const colQty As Integer = 3
+    Const colBrutto As Integer = 7
+    Const colNetto As Integer = 8
+    Const colTariff As Integer = 10
+    Const colAmount As Integer = 12
+
+' ================= LOOP =================
+    
+    For i = 2 To lastRow
+        
+        If ws.Cells(i, colTariff).Value <> "" Then
+            
+            fullHS = ws.Cells(i, colTariff).Value
+            desc = Trim(ws.Cells(i, colDesc).Value)
+            hsNum = CLng(Left(Replace(fullHS, ".", ""), 6))
+            
+' ================= GRUPIMI (E PANDRYSHUAR) =================
+                         
+            If (hsNum >= 271020 And hsNum <= 271020) Or _
+               (hsNum >= 271112 And hsNum <= 271113) Then
+                   hsKey = Left(fullHS, 4) & "-0%"
+
+            
+                   
+            
+                   
+            
+            ElseIf Replace(fullHS, ".", "") = "01022929" Or _
+                   Replace(fullHS, ".", "") = "01051111" Or _
+                   Replace(fullHS, ".", "") = "01051119" Then _
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+            
+            ElseIf Replace(fullHS, ".", "") = "01029020" Or _
+                   Replace(fullHS, ".", "") = "01051191" Or _
+                   Replace(fullHS, ".", "") = "01051199" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                       
+            ElseIf Replace(fullHS, ".", "") = "27090090" Then _
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+           
+            ElseIf Replace(fullHS, ".", "") = "27101211" Or _
+                   Replace(fullHS, ".", "") = "27101215" Or _
+                   Replace(fullHS, ".", "") = "27101911" Or _
+                   Replace(fullHS, ".", "") = "27101915" Or _
+                   Replace(fullHS, ".", "") = "27101971" Or _
+                   Replace(fullHS, ".", "") = "27101975" Or _
+                   Replace(fullHS, ".", "") = "27101993" Or _
+                   Replace(fullHS, ".", "") = "27111100" Or _
+                   Replace(fullHS, ".", "") = "27112100" Or _
+                   Replace(fullHS, ".", "") = "27112900" Or _
+                   Replace(fullHS, ".", "") = "27129031" Or _
+                   Replace(fullHS, ".", "") = "27129033" Or _
+                   Replace(fullHS, ".", "") = "27131100" Or _
+                   Replace(fullHS, ".", "") = "27131200" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "27090010" Or _
+                   Replace(fullHS, ".", "") = "27101221" Or _
+                   Replace(fullHS, ".", "") = "27101225" Or _
+                   Replace(fullHS, ".", "") = "27101231" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-10%"
+                              
+            ElseIf Replace(fullHS, ".", "") = "30061030" Or _
+                   Replace(fullHS, ".", "") = "30069100" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-6%"
+                        
+            ElseIf Replace(fullHS, ".", "") = "31021090" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "32089091" Or _
+                   Replace(fullHS, ".", "") = "32100090" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                                                       
+            ElseIf Replace(fullHS, ".", "") = "32141010" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "33021010" Or _
+                   Replace(fullHS, ".", "") = "33021090" Or _
+                   Replace(fullHS, ".", "") = "33029010" Or _
+                   Replace(fullHS, ".", "") = "33029090" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+            
+            ElseIf Replace(fullHS, ".", "") = "35019010" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "35052010" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "35030010" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "35052030" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "35052050" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "35052090" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "35019090" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-6%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "35030080" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-6%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "38249964" Or _
+                   Replace(fullHS, ".", "") = "38249986" Or _
+                   Replace(fullHS, ".", "") = "38249992" Or _
+                   Replace(fullHS, ".", "") = "38249993" Or _
+                   Replace(fullHS, ".", "") = "38249996" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                                          
+            ElseIf Replace(fullHS, ".", "") = "39202080" Or _
+                   Replace(fullHS, ".", "") = "39219010" Or _
+                   Replace(fullHS, ".", "") = "39219090" Or _
+                   Replace(fullHS, ".", "") = "39269060" Or _
+                   Replace(fullHS, ".", "") = "39269090" Or _
+                   Replace(fullHS, ".", "") = "39269097" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "39269050" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-6%"
+                                                        
+            ElseIf Replace(fullHS, ".", "") = "56021019" Or _
+                   Replace(fullHS, ".", "") = "56072100" Or _
+                   Replace(fullHS, ".", "") = "56075011" Or _
+                   Replace(fullHS, ".", "") = "56079090" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+            
+            ElseIf Replace(fullHS, ".", "") = "56012210" Or _
+                   Replace(fullHS, ".", "") = "56022900" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+                                      
+            ElseIf Replace(fullHS, ".", "") = "84082031" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                                                                               
+             ElseIf Replace(fullHS, ".", "") = "84082035" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "84082037" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "84082010" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                                          
+            ElseIf Replace(fullHS, ".", "") = "84082051" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                                                            
+            ElseIf Replace(fullHS, ".", "") = "84082055" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                                                                                                                       
+            ElseIf Replace(fullHS, ".", "") = "84082057" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                                                                                                                       
+            ElseIf Replace(fullHS, ".", "") = "84082099" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                                                                              
+            ElseIf Replace(fullHS, ".", "") = "84145100" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85129010" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85285291" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85285299" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85285900" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-2%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85285210" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85395200" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85444210" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85444290" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85444920" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85444993" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85444991" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-10%"
+                   
+            ElseIf Replace(fullHS, ".", "") = "85444995" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-10%"
+                 
+            ElseIf Replace(fullHS, ".", "") = "85444999" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-10%"
+                                       
+            ElseIf Replace(fullHS, ".", "") = "87142000" Then
+                   hsKey = Left(Replace(fullHS, ".", ""), 8) & "-0%"
+                                       
+            
+            
+            
+            ElseIf (hsNum >= 10512 And hsNum <= 10515) Then
+                 hsKey = Left(fullHS, 4) & "-0%"
+                   
+            ElseIf (hsNum >= 10121 And hsNum <= 10121) Or _
+                    (hsNum >= 10221 And hsNum <= 10221) Or _
+                    (hsNum >= 10231 And hsNum <= 10231) Or _
+                    (hsNum >= 10310 And hsNum <= 10420) Or _
+                    (hsNum >= 10594 And hsNum <= 10594) Or _
+                    (hsNum >= 10611 And hsNum <= 10690) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                   
+            ElseIf (hsNum >= 10229 And hsNum <= 10229) Or _
+                    (hsNum >= 10239 And hsNum <= 10239) Or _
+                    (hsNum >= 10290 And hsNum <= 10290) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                       
+            ElseIf (hsNum >= 10599 And hsNum <= 10599) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                 
+            ElseIf (hsNum >= 271112 And hsNum <= 271113) Then
+                   hsKey = Left(fullHS, 4) & "-0%"
+                        
+            ElseIf (hsNum >= 270119 And hsNum <= 270300) Or _
+               (hsNum >= 270500 And hsNum <= 270710) Or _
+               (hsNum >= 270740 And hsNum <= 270820) Or _
+               (hsNum >= 271019 And hsNum <= 271019) Or _
+               (hsNum >= 271113 And hsNum <= 271119) Or _
+               (hsNum >= 271210 And hsNum <= 271290) Then
+                   hsKey = Left(fullHS, 4) & "-10%"
+                   
+            ElseIf (hsNum >= 290110 And hsNum <= 294200) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 300120 And hsNum <= 300693) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 310210 And hsNum <= 310210) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 310100 And hsNum <= 310100) Or _
+                   (hsNum >= 310221 And hsNum <= 310590) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 321210 And hsNum <= 321210) Or _
+                   (hsNum >= 321511 And hsNum <= 321590) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 320110 And hsNum <= 320290) Or _
+                   (hsNum >= 320411 And hsNum <= 320411) Or _
+                   (hsNum >= 320414 And hsNum <= 320417) Or _
+                   (hsNum >= 320420 And hsNum <= 320420) Or _
+                   (hsNum >= 320500 And hsNum <= 320740) Or _
+                   (hsNum >= 320820 And hsNum <= 320820) Or _
+                   (hsNum >= 320890 And hsNum <= 320890) Or _
+                   (hsNum >= 320910 And hsNum <= 320990) Or _
+                   (hsNum >= 321100 And hsNum <= 321100) Or _
+                   (hsNum >= 321290 And hsNum <= 321390) Then
+                hsKey = Left(fullHS, 4) & "-6%"
+                
+           ElseIf (hsNum >= 330112 And hsNum <= 330790) Then
+                hsKey = Left(fullHS, 4) & "-6%"
+                
+                
+            ElseIf (hsNum >= 340241 And hsNum <= 340242) Or _
+                   (hsNum >= 340391 And hsNum <= 340391) Or _
+                   (hsNum >= 340490 And hsNum <= 340590) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 340231 And hsNum <= 340231) Or _
+                   (hsNum >= 340249 And hsNum <= 340249) Or _
+                   (hsNum >= 340290 And hsNum <= 340290) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 340111 And hsNum <= 340119) Or _
+                   (hsNum >= 340250 And hsNum <= 340250) Or _
+                   (hsNum >= 340311 And hsNum <= 340319) Or _
+                   (hsNum >= 340399 And hsNum <= 340420) Or _
+                   (hsNum >= 340600 And hsNum <= 340700) Then
+                hsKey = Left(fullHS, 4) & "-6%"
+                
+            ElseIf (hsNum >= 350400 And hsNum <= 350400) Or _
+                   (hsNum >= 350610 And hsNum <= 350790) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 350110 And hsNum <= 350110) Or _
+                   (hsNum >= 350211 And hsNum <= 350290) Or _
+                   (hsNum >= 350510 And hsNum <= 350510) Then
+                hsKey = Left(fullHS, 4) & "-6%"
+            
+            ElseIf (hsNum >= 380899 And hsNum <= 381700) Or _
+                   (hsNum >= 381900 And hsNum <= 382000) Or _
+                   (hsNum >= 382311 And hsNum <= 382460) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 382211 And hsNum <= 382290) Or _
+                   (hsNum >= 382481 And hsNum <= 382492) Or _
+                   (hsNum >= 382510 And hsNum <= 382569) Or _
+                   (hsNum >= 382711 And hsNum <= 382790) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+             ElseIf (hsNum >= 382499 And hsNum <= 382499) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                          
+            ElseIf (hsNum >= 390110 And hsNum <= 390120) Or _
+                   (hsNum >= 392113 And hsNum <= 392113) Or _
+                   (hsNum >= 392310 And hsNum <= 392310) Or _
+                   (hsNum >= 392390 And hsNum <= 392390) Or _
+                   (hsNum >= 392620 And hsNum <= 392620) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 390311 And hsNum <= 390490) Or _
+                   (hsNum >= 390519 And hsNum <= 390599) Or _
+                   (hsNum >= 390721 And hsNum <= 390729) Or _
+                   (hsNum >= 390740 And hsNum <= 390791) Or _
+                   (hsNum >= 390810 And hsNum <= 390890) Or _
+                   (hsNum >= 391110 And hsNum <= 391120) Or _
+                   (hsNum >= 391211 And hsNum <= 391220) Then
+                   
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 391510 And hsNum <= 391690) Or _
+                   (hsNum >= 391721 And hsNum <= 391723) Then
+                   
+                hsKey = Left(fullHS, 4) & "-5%"
+                
+            ElseIf (hsNum >= 391729 And hsNum <= 391890) Or _
+                   (hsNum >= 392030 And hsNum <= 392112) Or _
+                   (hsNum >= 392210 And hsNum <= 392290) Or _
+                   (hsNum >= 392321 And hsNum <= 392350) Or _
+                   (hsNum >= 392410 And hsNum <= 392610) Or _
+                   (hsNum >= 392630 And hsNum <= 392640) Then
+   
+                hsKey = Left(fullHS, 4) & "-6%"
+                
+            ElseIf (hsNum >= 400110 And hsNum <= 400299) Or _
+                   (hsNum >= 401610 And hsNum <= 401700) Then
+                   
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 400300 And hsNum <= 400690) Or _
+                   (hsNum >= 401410 And hsNum <= 401512) Then
+                   
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 401110 And hsNum <= 401190) Then
+                
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 400819 And hsNum <= 400821) Or _
+                   (hsNum >= 400911 And hsNum <= 401039) Or _
+                   (hsNum >= 401211 And hsNum <= 401390) Then
+                   
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 420500 And hsNum <= 420500) Or _
+                    (hsNum >= 420600 And hsNum <= 420600) Then
+                
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 420100 And hsNum <= 420100) Or _
+                   (hsNum >= 420211 And hsNum <= 420299) Or _
+                   (hsNum >= 420310 And hsNum <= 420340) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 430110 And hsNum <= 430190) Or _
+                   (hsNum >= 430211 And hsNum <= 430230) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 430310 And hsNum <= 430390) Or _
+                   (hsNum >= 430400 And hsNum <= 430400) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 440111 And hsNum <= 440149) Or _
+                   (hsNum >= 440210 And hsNum <= 440290) Or _
+                   (hsNum >= 440311 And hsNum <= 440399) Or _
+                   (hsNum >= 440410 And hsNum <= 440420) Or _
+                   (hsNum >= 440500 And hsNum <= 440500) Or _
+                   (hsNum >= 440611 And hsNum <= 440692) Or _
+                   (hsNum >= 440711 And hsNum <= 440799) Or _
+                   (hsNum >= 440810 And hsNum <= 440890) Or _
+                   (hsNum >= 440910 And hsNum <= 440929) Or _
+                   (hsNum >= 441011 And hsNum <= 441090) Or _
+                   (hsNum >= 441112 And hsNum <= 441194) Or _
+                   (hsNum >= 441210 And hsNum <= 441299) Or _
+                   (hsNum >= 441300 And hsNum <= 441300) Or _
+                   (hsNum >= 441410 And hsNum <= 441490) Or _
+                   (hsNum >= 441510 And hsNum <= 441520) Or _
+                   (hsNum >= 441600 And hsNum <= 441600) Or _
+                   (hsNum >= 441700 And hsNum <= 441700) Or _
+                   (hsNum >= 441811 And hsNum <= 441899) Or _
+                   (hsNum >= 441911 And hsNum <= 441990) Or _
+                   (hsNum >= 442011 And hsNum <= 442090) Or _
+                   (hsNum >= 442110 And hsNum <= 442199) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 450110 And hsNum <= 450190) Or _
+                   (hsNum >= 450200 And hsNum <= 450200) Or _
+                   (hsNum >= 450310 And hsNum <= 450390) Or _
+                   (hsNum >= 450410 And hsNum <= 450490) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 460121 And hsNum <= 460199) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 460211 And hsNum <= 460290) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 470100 And hsNum <= 470100) Or _
+                   (hsNum >= 470200 And hsNum <= 470200) Or _
+                   (hsNum >= 470311 And hsNum <= 470329) Or _
+                   (hsNum >= 470411 And hsNum <= 470429) Or _
+                   (hsNum >= 470500 And hsNum <= 470500) Or _
+                   (hsNum >= 470610 And hsNum <= 470693) Or _
+                   (hsNum >= 470710 And hsNum <= 470790) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 480100 And hsNum <= 480100) Or _
+                   (hsNum >= 480210 And hsNum <= 480269) Or _
+                   (hsNum >= 480300 And hsNum <= 480300) Or _
+                   (hsNum >= 480411 And hsNum <= 480459) Or _
+                   (hsNum >= 480511 And hsNum <= 480593) Or _
+                   (hsNum >= 480610 And hsNum <= 480640) Or _
+                   (hsNum >= 480700 And hsNum <= 480700) Or _
+                   (hsNum >= 480810 And hsNum <= 480890) Or _
+                   (hsNum >= 480920 And hsNum <= 480990) Or _
+                   (hsNum >= 481013 And hsNum <= 481099) Or _
+                   (hsNum >= 481110 And hsNum <= 481190) Or _
+                   (hsNum >= 481200 And hsNum <= 481200) Or _
+                   (hsNum >= 481310 And hsNum <= 481390) Or _
+                   (hsNum >= 481420 And hsNum <= 481490) Or _
+                   (hsNum >= 481620 And hsNum <= 481690) Or _
+                   (hsNum >= 481710 And hsNum <= 481730) Or _
+                   (hsNum >= 481810 And hsNum <= 481890) Or _
+                   (hsNum >= 481910 And hsNum <= 481960) Or _
+                   (hsNum >= 482010 And hsNum <= 482090) Or _
+                   (hsNum >= 482110 And hsNum <= 482190) Or _
+                   (hsNum >= 482210 And hsNum <= 482290) Or _
+                   (hsNum >= 482320 And hsNum <= 482390) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 56031110 And hsNum <= 56039480) Or _
+                   (hsNum >= 56090000 And hsNum <= 56090000) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                           
+            ElseIf (hsNum >= 560121 And hsNum <= 560121) Or _
+                   (hsNum >= 560122 And hsNum <= 560290) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+            
+            ElseIf (hsNum >= 620120 And hsNum <= 621790) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 630710 And hsNum <= 630790) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 630120 And hsNum <= 630690) Or _
+                   (hsNum >= 630800 And hsNum <= 630800) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 630900 And hsNum <= 631090) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 650100 And hsNum <= 650200) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 650500 And hsNum <= 650699) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+             ElseIf (hsNum >= 680510 And hsNum <= 680510) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 680100 And hsNum <= 680100) Or _
+                   (hsNum >= 681280 And hsNum <= 681280) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+            
+            ElseIf (hsNum >= 680210 And hsNum <= 680430) Or _
+                   (hsNum >= 680520 And hsNum <= 681189) Or _
+                   (hsNum >= 681291 And hsNum <= 681291) Or _
+                   (hsNum >= 681320 And hsNum <= 681599) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 700312 And hsNum <= 700800) Or _
+                   (hsNum >= 701090 And hsNum <= 701090) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 701110 And hsNum <= 701400) Or _
+                   (hsNum >= 701911 And hsNum <= 701990) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 700100 And hsNum <= 700239) Or _
+                   (hsNum >= 700910 And hsNum <= 700992) Or _
+                   (hsNum >= 701590 And hsNum <= 701690) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 720711 And hsNum <= 722990) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 720110 And hsNum <= 720441) Or _
+                   (hsNum >= 720450 And hsNum <= 720529) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 730110 And hsNum <= 730210) Or _
+                   (hsNum >= 730240 And hsNum <= 730721) Or _
+                   (hsNum >= 730723 And hsNum <= 730791) Or _
+                   (hsNum >= 730793 And hsNum <= 730890) Or _
+                   (hsNum >= 731210 And hsNum <= 731450) Or _
+                   (hsNum >= 732211 And hsNum <= 732290) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 732111 And hsNum <= 732190) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 731010 And hsNum <= 731029) Or _
+                   (hsNum >= 731511 And hsNum <= 731600) Or _
+                   (hsNum >= 731811 And hsNum <= 732090) Or _
+                   (hsNum >= 732310 And hsNum <= 732619) Or _
+                   (hsNum >= 732690 And hsNum <= 732690) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 740100 And hsNum <= 741980) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 820110 And hsNum <= 821410) Or _
+                   (hsNum >= 821510 And hsNum <= 821520) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 821420 And hsNum <= 821490) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 830810 And hsNum <= 830890) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 830910 And hsNum <= 830910) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 831110 And hsNum <= 831190) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 830110 And hsNum <= 830790) Or _
+                   (hsNum >= 831000 And hsNum <= 831000) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 840211 And hsNum <= 840729) Or _
+                   (hsNum >= 840810 And hsNum <= 840810) Or _
+                   (hsNum >= 840890 And hsNum <= 840890) Or _
+                   (hsNum >= 841011 And hsNum <= 841440) Or _
+                   (hsNum >= 841459 And hsNum <= 841459) Or _
+                   (hsNum >= 841480 And hsNum <= 841490) Or _
+                   (hsNum >= 841610 And hsNum <= 841790) Or _
+                   (hsNum >= 841911 And hsNum <= 842290) Or _
+                   (hsNum >= 842320 And hsNum <= 844250) Or _
+                   (hsNum >= 844332 And hsNum <= 844900) Or _
+                   (hsNum >= 845110 And hsNum <= 845190) Or _
+                   (hsNum >= 845221 And hsNum <= 845229) Or _
+                   (hsNum >= 845310 And hsNum <= 848790) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 840110 And hsNum <= 840140) Or _
+                   (hsNum >= 840731 And hsNum <= 840790) Or _
+                   (hsNum >= 840910 And hsNum <= 840999) Or _
+                   (hsNum >= 841460 And hsNum <= 841470) Or _
+                   (hsNum >= 841810 And hsNum <= 841810) Or _
+                   (hsNum >= 841861 And hsNum <= 841899) Or _
+                   (hsNum >= 844311 And hsNum <= 844319) Or _
+                   (hsNum >= 845011 And hsNum <= 845090) Or _
+                   (hsNum >= 845230 And hsNum <= 845290) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 841510 And hsNum <= 841590) Or _
+                   (hsNum >= 841821 And hsNum <= 841829) Or _
+                   (hsNum >= 842310 And hsNum <= 842310) Or _
+                   (hsNum >= 845210 And hsNum <= 845210) Or _
+                   (hsNum >= 841840 And hsNum <= 841850) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 850110 And hsNum <= 850180) Or _
+                   (hsNum >= 850410 And hsNum <= 850690) Or _
+                   (hsNum >= 850819 And hsNum <= 850870) Or _
+                   (hsNum >= 851411 And hsNum <= 851590) Or _
+                   (hsNum >= 851711 And hsNum <= 851890) Or _
+                   (hsNum >= 851930 And hsNum <= 852852) Or _
+                   (hsNum >= 852873 And hsNum <= 853090) Or _
+                   (hsNum >= 853120 And hsNum <= 853590) Or _
+                   (hsNum >= 853630 And hsNum <= 853630) Or _
+                   (hsNum >= 853650 And hsNum <= 853650) Or _
+                   (hsNum >= 853669 And hsNum <= 853710) Or _
+                   (hsNum >= 853810 And hsNum <= 853810) Or _
+                   (hsNum >= 854110 And hsNum <= 854390) Or _
+                   (hsNum >= 854511 And hsNum <= 854590) Or _
+                   (hsNum >= 854710 And hsNum <= 854800) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 850211 And hsNum <= 850300) Or _
+                   (hsNum >= 851110 And hsNum <= 851190) Or _
+                   (hsNum >= 853720 And hsNum <= 853720) Or _
+                   (hsNum >= 853890 And hsNum <= 853890) Or _
+                   (hsNum >= 853939 And hsNum <= 853939) Or _
+                   (hsNum >= 854610 And hsNum <= 854690) Or _
+                   (hsNum >= 854911 And hsNum <= 854999) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 850710 And hsNum <= 850780) Or _
+                   (hsNum >= 850940 And hsNum <= 850990) Or _
+                   (hsNum >= 851210 And hsNum <= 851390) Or _
+                   (hsNum >= 851610 And hsNum <= 851690) Or _
+                   (hsNum >= 851920 And hsNum <= 851920) Or _
+                   (hsNum >= 852872 And hsNum <= 852872) Or _
+                   (hsNum >= 853110 And hsNum <= 853110) Or _
+                   (hsNum >= 853610 And hsNum <= 853620) Or _
+                   (hsNum >= 853641 And hsNum <= 853649) Or _
+                   (hsNum >= 853661 And hsNum <= 853661) Or _
+                   (hsNum >= 853910 And hsNum <= 853951) Or _
+                   (hsNum >= 853990 And hsNum <= 854099) Or _
+                   (hsNum >= 854411 And hsNum <= 854430) Or _
+                   (hsNum >= 854460 And hsNum <= 854460) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 860110 And hsNum <= 860900) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 870110 And hsNum <= 870590) Or _
+                   (hsNum >= 870911 And hsNum <= 870990) Or _
+                   (hsNum >= 871310 And hsNum <= 871390) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 870600 And hsNum <= 870899) Or _
+                   (hsNum >= 871610 And hsNum <= 871690) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 871110 And hsNum <= 871200) Or _
+                   (hsNum >= 871410 And hsNum <= 871499) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 890110 And hsNum <= 890690) Or _
+                   (hsNum >= 890790 And hsNum <= 890800) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 900120 And hsNum <= 900120) Or _
+                   (hsNum >= 900190 And hsNum <= 900190) Or _
+                   (hsNum >= 900219 And hsNum <= 900290) Or _
+                   (hsNum >= 900691 And hsNum <= 900699) Or _
+                   (hsNum >= 901050 And hsNum <= 901110) Or _
+                   (hsNum >= 901180 And hsNum <= 901320) Or _
+                   (hsNum >= 901390 And hsNum <= 901520) Or _
+                   (hsNum >= 901540 And hsNum <= 901590) Or _
+                   (hsNum >= 901790 And hsNum <= 901920) Or _
+                   (hsNum >= 902110 And hsNum <= 902519) Or _
+                   (hsNum >= 902590 And hsNum <= 902890) Or _
+                   (hsNum >= 903010 And hsNum <= 903290) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 900110 And hsNum <= 900110) Or _
+                   (hsNum >= 900130 And hsNum <= 900150) Or _
+                   (hsNum >= 900211 And hsNum <= 900211) Or _
+                   (hsNum >= 900311 And hsNum <= 900490) Or _
+                   (hsNum >= 900850 And hsNum <= 900890) Or _
+                   (hsNum >= 901530 And hsNum <= 901530) Or _
+                   (hsNum >= 901600 And hsNum <= 901600) Or _
+                   (hsNum >= 901730 And hsNum <= 901780) Or _
+                   (hsNum >= 902000 And hsNum <= 902000) Or _
+                   (hsNum >= 902910 And hsNum <= 902990) Or _
+                   (hsNum >= 903300 And hsNum <= 903300) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 900510 And hsNum <= 900669) Or _
+                   (hsNum >= 900710 And hsNum <= 900792) Or _
+                   (hsNum >= 901010 And hsNum <= 901010) Then
+                hsKey = Left(fullHS, 4) & "-10%"
+                
+            ElseIf (hsNum >= 940110 And hsNum <= 940399) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 940610 And hsNum <= 940690) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 940410 And hsNum <= 940599) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+                
+            ElseIf (hsNum >= 960610 And hsNum <= 960630) Then
+                hsKey = Left(fullHS, 4) & "-0%"
+                
+            ElseIf (hsNum >= 961700 And hsNum <= 961700) Then
+                hsKey = Left(fullHS, 4) & "-2%"
+                
+            ElseIf (hsNum >= 960110 And hsNum <= 960500) Or _
+                   (hsNum >= 960711 And hsNum <= 961620) Or _
+                   (hsNum >= 961800 And hsNum <= 961800) Then
+                hsKey = Left(fullHS, 4) & "-15%"
+             
+            Else
+                hsKey = Left(fullHS, 4) & "-#"
+            End If
+            
+' ================= SHTO hsKey NE SHEET =================
+            
+            ws.Cells(i, 14).Value = Split(hsKey, "-")(1)
+            
+' ================= "DICTIONARY" ME COLLECTION =================
+            
+            If Not KeyExists(dict, hsKey) Then
+                Dim subDict As Collection
+                Set subDict = New Collection
+                Dim newItem(0 To 7) As Variant
+                newItem(0) = 0#
+                newItem(1) = 0#
+                newItem(2) = 0#
+                newItem(3) = 0#
+                Set newItem(4) = subDict
+                newItem(5) = ""
+                newItem(6) = 0#
+                newItem(7) = hsKey
+                dict.Add newItem, hsKey
+            End If
+            
+            Dim temp As Variant
+            temp = dict(hsKey)
+            
+            temp(0) = temp(0) + ws.Cells(i, colQty).Value
+            temp(1) = temp(1) + ws.Cells(i, colBrutto).Value
+            temp(2) = temp(2) + ws.Cells(i, colNetto).Value
+            temp(3) = temp(3) + ws.Cells(i, colAmount).Value
+            
+            Dim dDict As Collection
+            Set dDict = temp(4)   ' objekt (referencë) - ndryshimet reflektohen automatikisht
+            
+            If KeyExists(dDict, desc) Then
+                Dim oldPair As Variant
+                oldPair = dDict(desc)
+                Dim newQty As Double
+                newQty = oldPair(1) + ws.Cells(i, colQty).Value
+                dDict.Remove desc
+                dDict.Add Array(desc, newQty), desc
+            Else
+                dDict.Add Array(desc, ws.Cells(i, colQty).Value), desc
+            End If
+            
+            Dim currentHS As Double
+            currentHS = Val(fullHS)
+            
+            If currentHS > temp(6) Then
+                temp(5) = fullHS
+                temp(6) = currentHS
+            End If
+            
+            ' ---- Ruaje array-in e përditësuar (Collection kërkon Remove + Add) ----
+            dict.Remove hsKey
+            dict.Add temp, hsKey
+            
+        End If
+        
+    Next i
+
+' ================= OUTPUT =================
+    
+    Dim startRow As Long
+    startRow = lastRow + 3
+    
+    ws.Cells(startRow, 1).Value = "KODI NK"
+    ws.Cells(startRow, 2).Value = "GRUPIM SIPAS KODEVE DHE TARIFAVE TE NJEJTA"
+    ws.Cells(startRow, 3).Value = "SASIA"
+    ws.Cells(startRow, 7).Value = "Kg brutto"
+    ws.Cells(startRow, 8).Value = "Kg netto"
+    ws.Cells(startRow, 12).Value = "VLERA TOTALE"
+    ws.Cells(startRow, 13).Value = "HS Group"
+    ws.Cells(startRow, 14).Value = "TARIFA"
+    
+    Dim arr() As Variant, r As Long
+    ReDim arr(1 To dict.Count, 1 To 7)
+    
+    Dim temp2 As Variant, subItem As Variant, descText As String
+    r = 1
+    
+    For Each temp2 In dict
+        
+        arr(r, 1) = temp2(7)      ' hsKey
+        arr(r, 2) = temp2(5)      ' fullHS më e madhe
+        
+        descText = ""
+        For Each subItem In temp2(4)
+            If descText = "" Then
+                descText = subItem(0) & " " & subItem(1) & "Cp"
+            Else
+                descText = descText & ", " & subItem(0) & " " & subItem(1) & "Cp"
+            End If
+        Next subItem
+        
+        arr(r, 3) = descText
+        arr(r, 4) = temp2(0)
+        arr(r, 5) = temp2(1)
+        arr(r, 6) = temp2(2)
+        arr(r, 7) = temp2(3)
+        
+        r = r + 1
+        
+    Next temp2
+
+'' ================= SORT BY HS CODE: 8708 FIRST, THEN ASCENDING =================
+
+Dim i1 As Long, j1 As Long, k As Long
+Dim tempRow(1 To 7) As Variant
+Dim hsA As Double, hsB As Double
+Dim codeA As String, codeB As String
+Dim priorityA As Integer, priorityB As Integer
+
+For i1 = 1 To UBound(arr) - 1
+    For j1 = i1 + 1 To UBound(arr)
+
+        codeA = Replace(CStr(arr(i1, 2)), ".", "")
+        codeB = Replace(CStr(arr(j1, 2)), ".", "")
+
+        hsA = Val(codeA)
+        hsB = Val(codeB)
+
+        priorityA = IIf(Left(codeA, 4) = "8708", 0, 1)
+        priorityB = IIf(Left(codeB, 4) = "8708", 0, 1)
+
+        If priorityA > priorityB Or _
+           (priorityA = priorityB And hsA > hsB) Then
+
+            For k = 1 To 7
+                tempRow(k) = arr(i1, k)
+                arr(i1, k) = arr(j1, k)
+                arr(j1, k) = tempRow(k)
+            Next k
+
+        End If
+
+    Next j1
+Next i1
+
+
+' ================= OUTPUT =================
+
+Dim outRow As Long
+outRow = startRow + 1
+
+For i1 = 1 To UBound(arr)
+    
+    ws.Cells(outRow, 1).Value = arr(i1, 2)
+    ws.Cells(outRow, 2).Value = arr(i1, 3)
+    ws.Cells(outRow, 3).Value = arr(i1, 4)
+    ws.Cells(outRow, 7).Value = arr(i1, 5)
+    ws.Cells(outRow, 8).Value = arr(i1, 6)
+    ws.Cells(outRow, 12).Value = arr(i1, 7)
+    ws.Cells(outRow, 13).Value = arr(i1, 1)
+    ws.Cells(outRow, 14).Value = Split(arr(i1, 1), "-")(1)
+    
+    outRow = outRow + 1
+    
+Next i1
+
+    MsgBox "U krijua grupimi HS me sukses!", vbInformation
+
+End Sub
